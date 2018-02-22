@@ -37,9 +37,13 @@ class ContactsManager: NSObject {
             if let error = remoteError {
                 result = .Error
                 errorDescription = error
+            } else if let remoteContacts = remoteContacts {
+                for contact in remoteContacts {
+                    self.savePersonEntityToCoreData(withPerson: contact)
+                }
+                
+                contacts = remoteContacts
             }
-            
-            contacts = remoteContacts
             
             completionHandler(result, contacts, errorDescription)
         })

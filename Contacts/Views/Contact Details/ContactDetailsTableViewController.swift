@@ -18,8 +18,6 @@ import PKHUD
 }
 
 class ContactDetailsTableViewController: UITableViewController, ContactsDetailView {
-
-
     let cellHeight: CGFloat = 74
   
     var id: String = "1"
@@ -35,7 +33,6 @@ class ContactDetailsTableViewController: UITableViewController, ContactsDetailVi
         registerContactDetailCell()
       
         interactor.loadPersonById!(id: self.id)
-
     }
   
     private func initializeInteractor() {
@@ -46,13 +43,13 @@ class ContactDetailsTableViewController: UITableViewController, ContactsDetailVi
       tableView.reloadData()
     }
   
-    private func registerContactDetailCell(){
-      let cellFromNib = UINib(nibName: nibIdentifiers.contactDetailsCell, bundle: nil)
-      tableView.register(cellFromNib, forCellReuseIdentifier: cellIdentifiers.detailCell)
+    private func registerContactDetailCell() {
+      let cellFromNib = UINib(nibName: NibIdentifiers.CONTACTDETAILSCELL, bundle: nil)
+      tableView.register(cellFromNib, forCellReuseIdentifier: CellIdentifiers.DETAILCELL)
     }
   
-    private func setupHeaderTitle(){
-      title = Titles.CONTACT_DETAIL_TITLE
+    private func setupHeaderTitle() {
+      title = Titles.CONTACTSDETAILSTITLE
     }
   
     func setContactDetail(withContacts contacts: Person){
@@ -68,11 +65,9 @@ class ContactDetailsTableViewController: UITableViewController, ContactsDetailVi
     }
   
     func showAlert(withMessage message: String){
-      AlertManager
-        .sharedAlert
-        .displayStandardAlert(withViewController: self,
-                              title: Titles.appName,
-                              andMessage: message)
+      AlertManager.sharedAlert.displayStandardAlert(withViewController: self,
+                                                    title: Titles.APPNAME,
+                                                    andMessage: message)
     }
   
   
@@ -85,10 +80,8 @@ class ContactDetailsTableViewController: UITableViewController, ContactsDetailVi
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-      
-        let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifiers.detailCell,
+        let cell = tableView.dequeueReusableCell(withIdentifier: CellIdentifiers.DETAILCELL,
                                                  for: indexPath) as! ContactDetailTableViewCell
-      
       
         cell.setInfo(withTitle: person.arrayTitle()[indexPath.row],
                      andDetail: person.array()[indexPath.row])

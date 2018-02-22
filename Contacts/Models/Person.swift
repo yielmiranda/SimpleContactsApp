@@ -42,12 +42,12 @@ class Person: NSObject {
     func arrayTitle() -> [String] {
      var array = [String](repeating: "", count: length)
       array[0] = Titles.NAME
-      array[1] = Titles.address
-      array[2] = Titles.birthday
-      array[3] = Titles.mobileNumber
-      array[4] = Titles.emailAddress
-      array[5] = Titles.contactPerson
-      array[6] = Titles.contactPersonNumber
+      array[1] = Titles.ADDRESS
+      array[2] = Titles.BIRTHDAY
+      array[3] = Titles.MOBILENUMBER
+      array[4] = Titles.EMAILADDRESS
+      array[5] = Titles.CONTACTPERSON
+      array[6] = Titles.CONTACTPERSONNUMBER
     return array
   }
   
