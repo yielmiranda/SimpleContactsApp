@@ -33,6 +33,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		52A3860B203EBA6F0004578D /* ContactDetailInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactDetailInteractor.swift; sourceTree = "<group>"; };
 		88C8CFB56DBCCEEE7FE7B229 /* Pods_Contacts.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Contacts.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8C09F817203EB9140045259E /* ContactsTransformer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsTransformer.swift; sourceTree = "<group>"; };
 		8C1FD8C5203E7B52001D17A9 /* ContactsLocalService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsLocalService.swift; sourceTree = "<group>"; };
@@ -167,6 +168,7 @@
 				8C317BBC203D4F860052945F /* ContactDetailsCell.xib */,
 				8C317BC4203D54BA0052945F /* ContactDetailsTableViewController.swift */,
 				8C317BC6203D55F10052945F /* ContactDetailTableViewCell.swift */,
+				52A3860B203EBA6F0004578D /* ContactDetailInteractor.swift */,
 			);
 			path = "Contact Details";
 			sourceTree = "<group>";
@@ -238,7 +240,7 @@
 				TargetAttributes = {
 					8C317B8D203D3CF50052945F = {
 						CreatedOnToolsVersion = 9.2;
-						ProvisioningStyle = Automatic;
+						ProvisioningStyle = Manual;
 					};
 				};
 			};
@@ -341,6 +343,7 @@
 			files = (
 				8C317BC5203D54BA0052945F /* ContactDetailsTableViewController.swift in Sources */,
 				8C317BCA203D5A110052945F /* ContactsManager.swift in Sources */,
+				52A3860C203EBA6F0004578D /* ContactDetailInteractor.swift in Sources */,
 				8C317BCD203D60370052945F /* APIManager.swift in Sources */,
 				8C1FD8C6203E7B52001D17A9 /* ContactsLocalService.swift in Sources */,
 				8C317BB1203D49D60052945F /* Person.swift in Sources */,
@@ -484,12 +487,13 @@
 			baseConfigurationReference = A34DDFEC2854097EA38743FF /* Pods-Contacts.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = Q2BQM7QJBH;
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = Contacts/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.cybilltek.Contacts;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -500,12 +504,13 @@
 			baseConfigurationReference = FEF552CFF3A69B1C76990FE4 /* Pods-Contacts.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = Q2BQM7QJBH;
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = Contacts/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.cybilltek.Contacts;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
