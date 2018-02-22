@@ -9,20 +9,27 @@
 import UIKit
 import PKHUD
 
+protocol ContactsView {
+    func setContactList(withContacts contacts: [Person])
+    func showActivityIndicator()
+    func hideActivityIndicator()
+    func showAlert(withMessage message: String)
+}
+
 class ContactsTableViewController: UITableViewController, ContactsView {
 
     //MARK: - Properties
     
     var contactsList = [Person]()
     
-    private var interactor = ContactsInteractor()
+    private var interactor: DefaultContactsListInteractor!
     
     //MARK: - View Life Cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        interactor.initContactsInteractor(withView: self)
+        interactor = ContactsListInteractor(withView: self)
         interactor.loadContacts()
         
         setupInterface()
@@ -36,10 +43,10 @@ class ContactsTableViewController: UITableViewController, ContactsView {
     //MARK: - Methods
     
     private func setupInterface() {
-        title = titles.contactsListTitle
+        title = Titles.CONTACTSLISTTITLE
         
-        let cellFromNib = UINib(nibName: nibIdentifiers.contactsListCell, bundle: nil)
-        tableView.register(cellFromNib, forCellReuseIdentifier: cellIdentifiers.contactCell)
+        let cellFromNib = UINib(nibName: NibIdentifiers.CONTACTSLISTCELL, bundle: nil)
+        tableView.register(cellFromNib, forCellReuseIdentifier: CellIdentifiers.CONTACTCELL)
     }
     
     func setContactList(withContacts contacts: [Person]) {
@@ -56,7 +63,7 @@ class ContactsTableViewController: UITableViewController, ContactsView {
     }
     
     func showAlert(withMessage message: String) {
-        AlertManager.sharedAlert.displayStandardAlert(withViewController: self, title: titles.appName, andMessage: message)
+        AlertManager.sharedAlert.displayStandardAlert(withViewController: self, title: Titles.APPNAME, andMessage: message)
     }
 
     //MARK: - UITableView
@@ -72,7 +79,7 @@ class ContactsTableViewController: UITableViewController, ContactsView {
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifiers.contactCell, for: indexPath) as! ContactsTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: CellIdentifiers.CONTACTCELL, for: indexPath) as! ContactsTableViewCell
         let person = contactsList[indexPath.row]
         cell.setPerson(person)
 
@@ -83,7 +90,7 @@ class ContactsTableViewController: UITableViewController, ContactsView {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let person = contactsList[indexPath.row]
-        let contactDetailsVC = ContactDetailsTableViewController(nibName: nibIdentifiers.contactDetailsTableView, bundle: nil)
+        let contactDetailsVC = ContactDetailsTableViewController(nibName: NibIdentifiers.CONTACTDETAILSTABLEVIEW, bundle: nil)
         contactDetailsVC.person = person
         
         self.navigationController?.pushViewController(contactDetailsVC, animated: true)

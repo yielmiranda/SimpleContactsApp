@@ -10,8 +10,8 @@ import Foundation
 import SwiftyJSON
 import Alamofire
 
-final class ContactsService: RequestManager {
-    class func fetchContacts(completionBlock: @escaping CompletionBlock) {
+final class ContactsRemoteService: RequestManager {
+    static func fetchContacts(completionBlock: @escaping CompletionBlock) {
         perform(task: .fetchContacts()) { (result, error) in
             print("Result = \(String(describing: result))")
             

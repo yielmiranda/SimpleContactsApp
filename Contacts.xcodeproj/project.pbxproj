@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		517BCFBEFF8B9077D5CC1020 /* Pods_Contacts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 88C8CFB56DBCCEEE7FE7B229 /* Pods_Contacts.framework */; };
+		8C09F818203EB9140045259E /* ContactsTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C09F817203EB9140045259E /* ContactsTransformer.swift */; };
 		8C1FD8C6203E7B52001D17A9 /* ContactsLocalService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C1FD8C5203E7B52001D17A9 /* ContactsLocalService.swift */; };
 		8C317B92203D3CF50052945F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C317B91203D3CF50052945F /* AppDelegate.swift */; };
 		8C317B9F203D3CF50052945F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8C317B9D203D3CF50052945F /* LaunchScreen.storyboard */; };
@@ -26,13 +27,14 @@
 		8C317BCD203D60370052945F /* APIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C317BCC203D60370052945F /* APIManager.swift */; };
 		8C317BCF203D628E0052945F /* RequestManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C317BCE203D628E0052945F /* RequestManager.swift */; };
 		8C317BD1203D640D0052945F /* ContactsRemoteService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C317BD0203D640D0052945F /* ContactsRemoteService.swift */; };
-		8C317BD4203D6F7B0052945F /* ContactsInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C317BD3203D6F7B0052945F /* ContactsInteractor.swift */; };
+		8C317BD4203D6F7B0052945F /* ContactsListInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C317BD3203D6F7B0052945F /* ContactsListInteractor.swift */; };
 		8C317BD6203D757A0052945F /* AlertManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C317BD5203D757A0052945F /* AlertManager.swift */; };
 		8CC867FE203D83F000DDBE52 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CC867FD203D83F000DDBE52 /* Constants.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		88C8CFB56DBCCEEE7FE7B229 /* Pods_Contacts.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Contacts.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		8C09F817203EB9140045259E /* ContactsTransformer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsTransformer.swift; sourceTree = "<group>"; };
 		8C1FD8C5203E7B52001D17A9 /* ContactsLocalService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsLocalService.swift; sourceTree = "<group>"; };
 		8C317B8E203D3CF50052945F /* Contacts.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Contacts.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8C317B91203D3CF50052945F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -53,7 +55,7 @@
 		8C317BCC203D60370052945F /* APIManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIManager.swift; sourceTree = "<group>"; };
 		8C317BCE203D628E0052945F /* RequestManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestManager.swift; sourceTree = "<group>"; };
 		8C317BD0203D640D0052945F /* ContactsRemoteService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsRemoteService.swift; sourceTree = "<group>"; };
-		8C317BD3203D6F7B0052945F /* ContactsInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsInteractor.swift; sourceTree = "<group>"; };
+		8C317BD3203D6F7B0052945F /* ContactsListInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsListInteractor.swift; sourceTree = "<group>"; };
 		8C317BD5203D757A0052945F /* AlertManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertManager.swift; sourceTree = "<group>"; };
 		8CC867FD203D83F000DDBE52 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		A34DDFEC2854097EA38743FF /* Pods-Contacts.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Contacts.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Contacts/Pods-Contacts.debug.xcconfig"; sourceTree = "<group>"; };
@@ -176,6 +178,7 @@
 				8C317BBA203D4F2B0052945F /* ContactsListCell.xib */,
 				8C317BBE203D50BB0052945F /* ContactsTableViewController.swift */,
 				8C317BC0203D515D0052945F /* ContactsTableViewCell.swift */,
+				8C317BD3203D6F7B0052945F /* ContactsListInteractor.swift */,
 			);
 			path = "Contacts List";
 			sourceTree = "<group>";
@@ -183,10 +186,10 @@
 		8C317BC8203D59BE0052945F /* Contacts */ = {
 			isa = PBXGroup;
 			children = (
+				8C317BC9203D5A110052945F /* ContactsManager.swift */,
 				8C317BD0203D640D0052945F /* ContactsRemoteService.swift */,
 				8C1FD8C5203E7B52001D17A9 /* ContactsLocalService.swift */,
-				8C317BC9203D5A110052945F /* ContactsManager.swift */,
-				8C317BD3203D6F7B0052945F /* ContactsInteractor.swift */,
+				8C09F817203EB9140045259E /* ContactsTransformer.swift */,
 			);
 			path = Contacts;
 			sourceTree = "<group>";
@@ -342,8 +345,9 @@
 				8C1FD8C6203E7B52001D17A9 /* ContactsLocalService.swift in Sources */,
 				8C317BB1203D49D60052945F /* Person.swift in Sources */,
 				8C317BC7203D55F10052945F /* ContactDetailTableViewCell.swift in Sources */,
+				8C09F818203EB9140045259E /* ContactsTransformer.swift in Sources */,
 				8C317BD6203D757A0052945F /* AlertManager.swift in Sources */,
-				8C317BD4203D6F7B0052945F /* ContactsInteractor.swift in Sources */,
+				8C317BD4203D6F7B0052945F /* ContactsListInteractor.swift in Sources */,
 				8C317BC1203D515D0052945F /* ContactsTableViewCell.swift in Sources */,
 				8C317BCF203D628E0052945F /* RequestManager.swift in Sources */,
 				8C317BBF203D50BB0052945F /* ContactsTableViewController.swift in Sources */,

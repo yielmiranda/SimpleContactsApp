@@ -8,28 +8,28 @@
 
 import UIKit
 
-struct nibIdentifiers {
-    static let contactsListTableView = "ContactsListTableView"
-    static let contactsListCell = "ContactsListCell"
-    static let contactDetailsTableView = "ContactDetailsTableView"
-    static let contactDetailsCell = "ContactDetailsCell"
+struct NibIdentifiers {
+    static let CONTACTSLISTTABLEVIEW = "ContactsListTableView"
+    static let CONTACTSLISTCELL = "ContactsListCell"
+    static let CONTACTDETAILSTABLEVIEW = "ContactDetailsTableView"
+    static let CONTACTDETAILSCELL = "ContactDetailsCell"
 }
 
-struct cellIdentifiers {
-    static let contactCell = "contactCell"
-    static let detailCell = "detailCell"
+struct CellIdentifiers {
+    static let CONTACTCELL = "contactCell"
+    static let DETAILCELL = "detailCell"
 }
 
-struct titles {
-    static let name = "Name"
-    static let birthday = "Birthday"
-    static let emailAddress = "Email Address"
-    static let mobileNumber = "Mobile Number"
-    static let address = "Address"
-    static let contactPerson = "Contact Person"
-    static let contactPersonNumber = "Contact Person's Number"
+struct Titles {
+    static let NAME = "Name"
+    static let BIRTHDAY = "Birthday"
+    static let EMAILADDRESS = "Email Address"
+    static let MOBILENUMBER = "Mobile Number"
+    static let ADDRESS = "Address"
+    static let CONTACTPERSON = "Contact Person"
+    static let CONTACTPERSONNUMBER = "Contact Person's Number"
     
-    static let appName = "Contacts"
-    static let contactsListTitle = "Contacts"
-    static let contactsDetailsTitle = "Contact Details"
+    static let APPNAME = "Contacts"
+    static let CONTACTSLISTTITLE = "Contacts"
+    static let CONTACTSDETAILSTITLE = "Contact Details"
 }
