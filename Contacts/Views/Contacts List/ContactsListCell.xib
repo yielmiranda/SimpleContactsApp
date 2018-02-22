@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="HelveticaNeue.ttc">
+            <string>HelveticaNeue</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="contactCell" rowHeight="74" id="15w-hf-gxj" customClass="ContactsTableViewCell" customModule="Contacts" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="74"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="15w-hf-gxj" id="Ost-UD-8h7">
+                <rect key="frame" x="0.0" y="0.0" width="341" height="73.5"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LW2-Fe-N5w">
+                        <rect key="frame" x="16" y="11" width="317" height="25"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="25" id="i4A-Nc-BMQ"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BsF-rH-svu">
+                        <rect key="frame" x="36" y="38" width="297" height="25"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="25" id="Ec7-AZ-6lS"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
+                        <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="BsF-rH-svu" firstAttribute="leading" secondItem="Ost-UD-8h7" secondAttribute="leadingMargin" constant="20" id="0TN-Bf-w4x"/>
+                    <constraint firstItem="BsF-rH-svu" firstAttribute="trailing" secondItem="Ost-UD-8h7" secondAttribute="trailingMargin" id="MMb-AS-Cdf"/>
+                    <constraint firstItem="BsF-rH-svu" firstAttribute="bottom" secondItem="Ost-UD-8h7" secondAttribute="bottomMargin" id="RVX-OD-SCD"/>
+                    <constraint firstItem="LW2-Fe-N5w" firstAttribute="top" secondItem="Ost-UD-8h7" secondAttribute="topMargin" id="RcA-Sb-17d"/>
+                    <constraint firstItem="LW2-Fe-N5w" firstAttribute="trailing" secondItem="Ost-UD-8h7" secondAttribute="trailingMargin" id="fs2-VP-8Xw"/>
+                    <constraint firstItem="LW2-Fe-N5w" firstAttribute="leading" secondItem="Ost-UD-8h7" secondAttribute="leadingMargin" id="l2V-tb-r9q"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="lblMobileNumber" destination="BsF-rH-svu" id="N78-p9-o6K"/>
+                <outlet property="lblName" destination="LW2-Fe-N5w" id="3U5-tg-ees"/>
+            </connections>
+        </tableViewCell>
+    </objects>
+</document>
