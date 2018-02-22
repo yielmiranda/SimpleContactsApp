@@ -20,8 +20,8 @@ struct cellIdentifiers {
     static let detailCell = "detailCell"
 }
 
-struct titles {
-    static let name = "Name"
+struct Titles {
+    static let NAME = "Name"
     static let birthday = "Birthday"
     static let emailAddress = "Email Address"
     static let mobileNumber = "Mobile Number"
@@ -31,5 +31,5 @@ struct titles {
     
     static let appName = "Contacts"
     static let contactsListTitle = "Contacts"
-    static let contactsDetailsTitle = "Contact Details"
+    static let CONTACT_DETAIL_TITLE = "Contact Details"
 }

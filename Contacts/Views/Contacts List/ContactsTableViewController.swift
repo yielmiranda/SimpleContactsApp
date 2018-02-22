@@ -36,7 +36,7 @@ class ContactsTableViewController: UITableViewController, ContactsView {
     //MARK: - Methods
     
     private func setupInterface() {
-        title = titles.contactsListTitle
+        title = Titles.contactsListTitle
         
         let cellFromNib = UINib(nibName: nibIdentifiers.contactsListCell, bundle: nil)
         tableView.register(cellFromNib, forCellReuseIdentifier: cellIdentifiers.contactCell)
@@ -56,7 +56,7 @@ class ContactsTableViewController: UITableViewController, ContactsView {
     }
     
     func showAlert(withMessage message: String) {
-        AlertManager.sharedAlert.displayStandardAlert(withViewController: self, title: titles.appName, andMessage: message)
+        AlertManager.sharedAlert.displayStandardAlert(withViewController: self, title: Titles.appName, andMessage: message)
     }
 
     //MARK: - UITableView
