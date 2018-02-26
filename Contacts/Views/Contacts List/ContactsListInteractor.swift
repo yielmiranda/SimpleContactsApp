@@ -8,11 +8,11 @@
 
 import UIKit
 
-protocol DefaultContactsListInteractor {
+protocol ContactsListInteractor {
     func loadContacts()
 }
 
-class ContactsListInteractor: DefaultContactsListInteractor {
+class DefaultContactsListInteractor: ContactsListInteractor {
 
     //MARK: - Properties
     
@@ -23,24 +23,38 @@ class ContactsListInteractor: DefaultContactsListInteractor {
     
     init(withView view: ContactsView) {
         self.view = view
-        self.manager = ContactsManager()
+        self.manager = DefaultContactsManager()
     }
     
     //MARK: - Methods
+    
+    //MARK: - Public
     
     func loadContacts() {
         view.showActivityIndicator()
         
         manager.loadContacts { (result, contacts, error) in
-            DispatchQueue.main.async {
-                self.view.hideActivityIndicator()
-                
-                if result == .Success {
-                    self.view.setContactList(withContacts: contacts!)
-                } else {
-                    self.view.showAlert(withMessage: error!)
-                }
+            if result == .Success {
+                self.onLoadContactsSuccess(withContacts: contacts!)
+            } else {
+                self.onLoadContactsFail(withMessage: error!)
             }
+        }
+    }
+    
+    //MARK: Private
+    
+    private func onLoadContactsSuccess(withContacts contacts: [Person]) {
+        DispatchQueue.main.async {
+            self.view.hideActivityIndicator()
+            self.view.setContactList(withContacts: contacts)
+        }
+    }
+    
+    private func onLoadContactsFail(withMessage message: String) {
+        DispatchQueue.main.async {
+            self.view.hideActivityIndicator()
+            self.view.showAlert(withMessage: message)
         }
     }
 }

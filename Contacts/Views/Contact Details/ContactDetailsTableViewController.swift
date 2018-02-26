@@ -9,82 +9,95 @@
 import UIKit
 import PKHUD
 
-@objc protocol ContactsDetailView {
-  @objc optional func setContactDetail(withContacts contacts: Person)
-  @objc optional func refreshView()
-  @objc optional func showLoading()
-  @objc optional func hideLoading()
-  @objc optional func showAlert(withMessage message: String)
+protocol ContactsDetailView {
+    func setContactDetails(withPerson person: Person)
+    func setupContactDetailsList(withLabels labels: [String])
+    func showLoading()
+    func hideLoading()
+    func showAlert(withMessage message: String)
 }
 
 class ContactDetailsTableViewController: UITableViewController, ContactsDetailView {
-    let cellHeight: CGFloat = 74
+    
+    //MARK: - Properties
   
-    var id: String = "1"
+    var person: Person!
   
-    var person = Person()
-  
-    var interactor : ContactsDetailInteractor!
+    private var interactor: ContactsDetailsInteractor!
+    
+    private var cellTitles: [String] {
+        get {
+            return [Titles.NAME,
+                    Titles.ADDRESS,
+                    Titles.BIRTHDAY,
+                    Titles.MOBILE_NUMBER,
+                    Titles.EMAIL_ADDRESS,
+                    Titles.CONTACT_PERSON,
+                    Titles.CONTACT_PERSON_NUMBER]
+        }
+    }
+    
+    private var cellSubtitles: [String]!
+    
+    //MARK: - View Life Cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        initializeInteractor()
-        setupHeaderTitle()
-        registerContactDetailCell()
+        
+        setupInterface()
       
-        interactor.loadPersonById!(id: self.id)
+        interactor = DefaultContactDetailsInteractor(view: self)
+        interactor.loadPerson(withId: person.id)
+    }
+    
+    //MARK: - Methods
+    
+    private func setupInterface() {
+        title = Titles.CONTACT_DETAILS_TITLE
+        
+        let cellFromNib = UINib(nibName: NibIdentifiers.CONTACT_DETAILS_CELL, bundle: nil)
+        tableView.register(cellFromNib, forCellReuseIdentifier: CellIdentifiers.DETAIL_CELL)
     }
   
-    private func initializeInteractor() {
-      interactor = DefaultContactDetailInteractor(view: self)
+    func setContactDetails(withPerson person: Person) {
+        self.person = person
+    }
+    
+    func setupContactDetailsList(withLabels labels: [String]) {
+        cellSubtitles = labels
+        
+        tableView.reloadData()
     }
   
-    func refreshView() {
-      tableView.reloadData()
+    func showLoading() {
+        HUD.show(.progress, onView: self.view)
     }
   
-    private func registerContactDetailCell() {
-      let cellFromNib = UINib(nibName: NibIdentifiers.CONTACTDETAILSCELL, bundle: nil)
-      tableView.register(cellFromNib, forCellReuseIdentifier: CellIdentifiers.DETAILCELL)
+    func hideLoading() {
+        HUD.hide()
     }
   
-    private func setupHeaderTitle() {
-      title = Titles.CONTACTSDETAILSTITLE
+    func showAlert(withMessage message: String) {
+        AlertManager.sharedAlert.displayStandardAlert(withViewController: self, title: Titles.APP_NAME,
+                                                      andMessage: message)
     }
-  
-    func setContactDetail(withContacts contacts: Person){
-      self.person = contacts
-    }
-  
-    func showLoading(){
-      HUD.show(.progress, onView: self.view)
-    }
-  
-    func hideLoading(){
-      HUD.hide()
-    }
-  
-    func showAlert(withMessage message: String){
-      AlertManager.sharedAlert.displayStandardAlert(withViewController: self,
-                                                    title: Titles.APPNAME,
-                                                    andMessage: message)
-    }
-  
+    
+    //MARK: - UITableView
+    
+    //MARK: Data Source
   
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return person.length
+        return cellTitles.count
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: CellIdentifiers.DETAILCELL,
+        let cell = tableView.dequeueReusableCell(withIdentifier: CellIdentifiers.DETAIL_CELL,
                                                  for: indexPath) as! ContactDetailTableViewCell
-      
-        cell.setInfo(withTitle: person.arrayTitle()[indexPath.row],
-                     andDetail: person.array()[indexPath.row])
+        cell.setInfo(withTitle: cellTitles[indexPath.row], andDetail: cellSubtitles[indexPath.row])
 
         return cell
     }
@@ -92,7 +105,6 @@ class ContactDetailsTableViewController: UITableViewController, ContactsDetailVi
     //MARK: Delegate
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-      //get this from resource config
-        return cellHeight
+        return Heights.CONTACT_CELL
     }
 }

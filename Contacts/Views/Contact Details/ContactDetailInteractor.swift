@@ -7,35 +7,53 @@
 //
 
 import UIKit
-@objc protocol ContactsDetailInteractor {
-  @objc optional func loadPersonById(id:String)
-  
+
+protocol ContactsDetailsInteractor {
+    func loadPerson(withId id: Int)
 }
-class DefaultContactDetailInteractor: ContactsDetailInteractor {
-  var view : ContactsDetailView!
-  var manager: ContactsManager!
-  
-  init(view : ContactsDetailView) {
-    self.view = view
-    self.manager = ContactsManager() //This should be on the Constructor
-    //Manager should have a protocol
-  }
-  
-  func loadPersonById(id:String){
-    view.showLoading?()
-    //Load Contact Manager by Id
-    view.refreshView?()
-    onLoadPersonSuccess()
+
+class DefaultContactDetailsInteractor: ContactsDetailsInteractor {
     
-  }
+    //MARK: - Properties
+    
+    var view: ContactsDetailView!
+    var manager: ContactsManager!
+    
+    //MARK:  Init
   
-  private func onLoadPersonSuccess() {
-    view.hideLoading?()
-  }
+    init(view: ContactsDetailView) {
+        self.view = view
+        self.manager = DefaultContactsManager()
+    }
   
-  private func onLoadPersonFail() {
-    view.hideLoading?()
-    view.showAlert?(withMessage: "Load Person Fail")
-  }
+    //MARK: - Methods
+    
+    //MARK: Public
+    
+    func loadPerson(withId id: Int){
+        view.showLoading()
+    
+        let person = ContactsLocalService.fetchPerson(withId: id)
+        guard person != nil else {
+            onLoadPersonFail()
+            return
+        }
+        
+        onLoadPersonSuccess(withPerson: person!)
+    }
   
+    //MARK: Private
+    
+    private func onLoadPersonSuccess(withPerson person: Person) {
+        view.hideLoading()
+        view.setContactDetails(withPerson: person)
+        
+        let contactDetailsLabels = ContactsTransformer.convertToContactDetails(withPerson: person)
+        view.setupContactDetailsList(withLabels: contactDetailsLabels)
+    }
+  
+    private func onLoadPersonFail() {
+        view.hideLoading()
+        view.showAlert(withMessage: "Failed loading person details")
+    }
 }

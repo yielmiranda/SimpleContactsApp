@@ -10,10 +10,7 @@ import UIKit
 import SwiftyJSON
 
 final class ContactsTransformer: NSObject {
-    
-    //MARK: - Parser
-    
-    static func transformToPersons(withJson json: JSON?) -> [Person] {
+    static func convertToPersons(withJson json: JSON?) -> [Person] {
         var contacts = [Person]()
         guard json != nil else { return contacts }
         
@@ -43,10 +40,9 @@ final class ContactsTransformer: NSObject {
         return contacts
     }
     
-    //MARK: - Converter
-    
-    static func convertToPersonModel(withPersonEntity entity: PersonEntity) -> Person {
+    static func convertToPerson(withEntity entity: PersonEntity) -> Person {
         let person = Person()
+        person.id = Int(entity.id)
         person.firstName = entity.firstName ?? ""
         person.lastName = entity.lastName ?? ""
         person.address = entity.address ?? ""
@@ -58,4 +54,15 @@ final class ContactsTransformer: NSObject {
         
         return person
     }
+    
+    static func convertToContactDetails(withPerson person: Person) -> [String] {
+        return [person.firstName + " " + person.lastName,
+                person.address,
+                person.birthday,
+                person.mobileNumber,
+                person.emailAddress,
+                person.contactPersonName,
+                person.contactPersonNumber]
+    }
+    
 }

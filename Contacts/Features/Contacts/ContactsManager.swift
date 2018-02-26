@@ -10,19 +10,23 @@ import UIKit
 import SwiftyJSON
 import CoreData
 
+protocol ContactsManager {
+    func loadContacts(completionHandler: @escaping ContactsLoaderCompletionBlock)
+}
+
 enum Result {
     case Success, Error
 }
 
-typealias ContactsLoaderCompletionBlock = (_ contacts: [Person]?, _ errorDescription: String?) -> Void
+typealias ContactsServiceLoaderCompletionBlock = (_ contacts: [Person]?, _ errorDescription: String?) -> Void
+typealias ContactsLoaderCompletionBlock =  (_ result: Result, _ contacts: [Person]?,
+                                            _ errorDescription: String?) -> Void
 
-class ContactsManager: NSObject {
+class DefaultContactsManager: ContactsManager {
     
     //MARK: - Loader
     
-    func loadContacts(completionHandler: @escaping (_ result: Result,
-                        _ contacts: [Person]?,
-                        _ errorDescription: String?) -> Void) {
+    func loadContacts(completionHandler: @escaping ContactsLoaderCompletionBlock) {
         var result = Result.Success
         var contacts: [Person]?
         var errorDescription: String?
@@ -39,7 +43,7 @@ class ContactsManager: NSObject {
                 errorDescription = error
             } else if let remoteContacts = remoteContacts {
                 for contact in remoteContacts {
-                    self.savePersonEntityToCoreData(withPerson: contact)
+                    ContactsLocalService.savePersonEntityToCoreData(withPerson: contact)
                 }
                 
                 contacts = remoteContacts
@@ -49,7 +53,7 @@ class ContactsManager: NSObject {
         })
     }
     
-    private func loadContactsFromRemote(completionHandler: @escaping ContactsLoaderCompletionBlock) {
+    private func loadContactsFromRemote(completionHandler: @escaping ContactsServiceLoaderCompletionBlock) {
         ContactsRemoteService.fetchContacts { (json, error) in
             var contacts: [Person]?
             var errorDescription: String?
@@ -57,7 +61,7 @@ class ContactsManager: NSObject {
             if let error = error {
                 errorDescription = error.localizedDescription
             } else {
-                contacts = ContactsTransformer.transformToPersons(withJson: json)
+                contacts = ContactsTransformer.convertToPersons(withJson: json)
             }
             
             completionHandler(contacts, errorDescription)
@@ -70,37 +74,9 @@ class ContactsManager: NSObject {
         
         var contacts = [Person]()
         for entity in contactEntities! {
-            contacts.append(ContactsTransformer.convertToPersonModel(withPersonEntity: entity))
+            contacts.append(ContactsTransformer.convertToPerson(withEntity: entity))
         }
         
         return contacts
-    }
-    
-    //MARK: - Saver
-    
-    private let appDelegate = UIApplication.shared.delegate as! AppDelegate
-    private var managedObjectContext: NSManagedObjectContext {
-        get {
-            return appDelegate.persistentContainer.viewContext
-        }
-    }
-    
-    func savePersonEntityToCoreData(withPerson person: Person) {
-        let personEntity =  NSEntityDescription.insertNewObject(forEntityName: "PersonEntity", into: managedObjectContext) as! PersonEntity
-        
-        personEntity.firstName = person.firstName
-        personEntity.lastName = person.lastName
-        personEntity.address = person.address
-        personEntity.birthday = person.birthday
-        personEntity.mobileNumber = person.mobileNumber
-        personEntity.emailAddress = person.emailAddress
-        personEntity.contactPersonName = person.contactPersonName
-        personEntity.contactPersonNumber = person.contactPersonNumber
-        
-        do {
-            try managedObjectContext.save()
-        } catch let error {
-            print(error.localizedDescription)
-        }
     }
 }

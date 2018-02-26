@@ -9,27 +9,31 @@
 import UIKit
 
 struct NibIdentifiers {
-    static let CONTACTSLISTTABLEVIEW = "ContactsListTableView"
-    static let CONTACTSLISTCELL = "ContactsListCell"
-    static let CONTACTDETAILSTABLEVIEW = "ContactDetailsTableView"
-    static let CONTACTDETAILSCELL = "ContactDetailsCell"
+    static let CONTACTS_LIST_TABLE_VIEW = "ContactsListTableView"
+    static let CONTACTS_LIST_CELL = "ContactsListCell"
+    static let CONTACT_DETAILS_TABLEVIEW = "ContactDetailsTableView"
+    static let CONTACT_DETAILS_CELL = "ContactDetailsCell"
 }
 
 struct CellIdentifiers {
-    static let CONTACTCELL = "contactCell"
-    static let DETAILCELL = "detailCell"
+    static let CONTACT_CELL = "contactCell"
+    static let DETAIL_CELL = "detailCell"
 }
 
 struct Titles {
     static let NAME = "Name"
     static let BIRTHDAY = "Birthday"
-    static let EMAILADDRESS = "Email Address"
-    static let MOBILENUMBER = "Mobile Number"
+    static let EMAIL_ADDRESS = "Email Address"
+    static let MOBILE_NUMBER = "Mobile Number"
     static let ADDRESS = "Address"
-    static let CONTACTPERSON = "Contact Person"
-    static let CONTACTPERSONNUMBER = "Contact Person's Number"
+    static let CONTACT_PERSON = "Contact Person"
+    static let CONTACT_PERSON_NUMBER = "Contact Person's Number"
     
-    static let APPNAME = "Contacts"
-    static let CONTACTSLISTTITLE = "Contacts"
-    static let CONTACTSDETAILSTITLE = "Contact Details"
+    static let APP_NAME = "Contacts"
+    static let CONTACTS_LIST_TITLE = "Contacts"
+    static let CONTACT_DETAILS_TITLE = "Contact Details"
+}
+
+struct Heights {
+    static let CONTACT_CELL = CGFloat(74)
 }

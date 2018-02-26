@@ -8,14 +8,15 @@
 
 import UIKit
 
-
-
-
 class ContactDetailTableViewCell: UITableViewCell {
   
+    //MARK: - Properties
+    
     @IBOutlet weak var title: UILabel!
     @IBOutlet weak var detail: UILabel!
   
+    //MARK: - View Life Cycle
+    
     override func awakeFromNib() {
         super.awakeFromNib()
     }
@@ -24,9 +25,10 @@ class ContactDetailTableViewCell: UITableViewCell {
         super.setSelected(false, animated: animated)
     }
     
+    //MARK: - Methods
+    
     func setInfo(withTitle title: String, andDetail detail: String) {
         self.title.text = title
         self.detail.text = detail
     }
-
 }

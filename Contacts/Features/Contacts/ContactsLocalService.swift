@@ -10,10 +10,16 @@ import UIKit
 import CoreData
 
 final class ContactsLocalService: NSObject {
+    
+    //MARK: - Properties
+    
+    static let managedObjectContext = CoreDataManager.managedObjectContext
+    
+    //MARK: - Methods
+    
+    //MARK: Loader
+    
     static func fetchContacts() -> [PersonEntity]? {
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        let managedObjectContext = appDelegate.persistentContainer.viewContext
-        
         let entityDescription =  NSEntityDescription.entity(forEntityName: "PersonEntity",
                                                             in: managedObjectContext)
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>()
@@ -29,5 +35,49 @@ final class ContactsLocalService: NSObject {
         }
         
         return nil
+    }
+    
+    static func fetchPerson(withId id: Int) -> Person? {
+        var person: Person?
+        let entityDescription =  NSEntityDescription.entity(forEntityName: "PersonEntity",
+                                                            in: managedObjectContext)
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>()
+        fetchRequest.entity = entityDescription
+        
+        do {
+            let fetchRawResults = try managedObjectContext.fetch(fetchRequest) as! [PersonEntity]
+            let filteredResults = fetchRawResults.filter {
+                $0.id == id
+            }
+            guard filteredResults.count != 0 else { return person }
+            
+            person = ContactsTransformer.convertToPerson(withEntity: filteredResults.first!)
+            
+        } catch let error {
+            print(error.localizedDescription)
+        }
+        
+        return person
+    }
+    
+    //MARK: Saver
+    
+    static func savePersonEntityToCoreData(withPerson person: Person) {
+        let personEntity =  NSEntityDescription.insertNewObject(forEntityName: "PersonEntity", into: managedObjectContext) as! PersonEntity
+        
+        personEntity.firstName = person.firstName
+        personEntity.lastName = person.lastName
+        personEntity.address = person.address
+        personEntity.birthday = person.birthday
+        personEntity.mobileNumber = person.mobileNumber
+        personEntity.emailAddress = person.emailAddress
+        personEntity.contactPersonName = person.contactPersonName
+        personEntity.contactPersonNumber = person.contactPersonNumber
+        
+        do {
+            try managedObjectContext.save()
+        } catch let error {
+            print(error.localizedDescription)
+        }
     }
 }
