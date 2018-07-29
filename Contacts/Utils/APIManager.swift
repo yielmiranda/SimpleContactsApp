@@ -13,7 +13,7 @@ enum Router: URLRequestConvertible {
     case fetchContacts()
     
     var baseURL: String {
-        return "https://cpsanpedro.000webhostapp.com/cpsanpedro/"
+        return "https://jsonplaceholder.typicode.com/"
     }
     
     var method: HTTPMethod {
@@ -24,7 +24,7 @@ enum Router: URLRequestConvertible {
     }
     
     struct Endpoint {
-        static let fetchContacts = "sample.json"
+        static let fetchContacts = "users/1"
     }
     
     func asURLRequest() throws -> URLRequest {

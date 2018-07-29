@@ -65,14 +65,13 @@ final class ContactsLocalService: NSObject {
     static func savePersonEntityToCoreData(withPerson person: Person) {
         let personEntity =  NSEntityDescription.insertNewObject(forEntityName: "PersonEntity", into: managedObjectContext) as! PersonEntity
         
-        personEntity.firstName = person.firstName
-        personEntity.lastName = person.lastName
+        personEntity.id = Int64(person.id)
+        personEntity.name = person.name
         personEntity.address = person.address
-        personEntity.birthday = person.birthday
+        personEntity.username = person.username
         personEntity.mobileNumber = person.mobileNumber
         personEntity.emailAddress = person.emailAddress
-        personEntity.contactPersonName = person.contactPersonName
-        personEntity.contactPersonNumber = person.contactPersonNumber
+        personEntity.website = person.website
         
         do {
             try managedObjectContext.save()

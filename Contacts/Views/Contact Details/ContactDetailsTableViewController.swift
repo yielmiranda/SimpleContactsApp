@@ -9,35 +9,29 @@
 import UIKit
 import PKHUD
 
-protocol ContactsDetailView {
-    func setContactDetails(withPerson person: Person)
-    func setupContactDetailsList(withLabels labels: [String])
-    func showLoading()
-    func hideLoading()
-    func showAlert(withMessage message: String)
-}
-
-class ContactDetailsTableViewController: UITableViewController, ContactsDetailView {
+class ContactDetailsTableViewController: UITableViewController {
     
     //MARK: - Properties
   
-    var person: Person!
+    var personId: Int!
   
-    private var interactor: ContactsDetailsInteractor!
+    private var viewModel = ContactsDetailsViewModel()
     
     private var cellTitles: [String] {
         get {
             return [Titles.NAME,
+                    Titles.USERNAME,
                     Titles.ADDRESS,
-                    Titles.BIRTHDAY,
                     Titles.MOBILE_NUMBER,
                     Titles.EMAIL_ADDRESS,
-                    Titles.CONTACT_PERSON,
-                    Titles.CONTACT_PERSON_NUMBER]
+                    Titles.WEBSITE]
         }
     }
     
-    private var cellSubtitles: [String]!
+    private var personObjectObserver: NSObjectProtocol!
+    private var personLabelsObserver: NSObjectProtocol!
+    private var isLoadingObserver: NSObjectProtocol!
+    private var errorMessageObserver: NSObjectProtocol!
     
     //MARK: - View Life Cycle
     
@@ -46,8 +40,7 @@ class ContactDetailsTableViewController: UITableViewController, ContactsDetailVi
         
         setupInterface()
       
-        interactor = DefaultContactDetailsInteractor(view: self)
-        interactor.loadPerson(withId: person.id)
+        viewModel.loadPerson(withId: personId)
     }
     
     //MARK: - Methods
@@ -58,23 +51,31 @@ class ContactDetailsTableViewController: UITableViewController, ContactsDetailVi
         let cellFromNib = UINib(nibName: NibIdentifiers.CONTACT_DETAILS_CELL, bundle: nil)
         tableView.register(cellFromNib, forCellReuseIdentifier: CellIdentifiers.DETAIL_CELL)
     }
-  
-    func setContactDetails(withPerson person: Person) {
-        self.person = person
+    
+    private func setupObservers() {
+        self.personLabelsObserver = NotificationCenter.default.addObserver(forName: ContactsDetailsViewModel.personLabelsDidChange, object: nil, queue: nil, using: { [weak self] (note) in
+            DispatchQueue.main.async {
+                self?.tableView.reloadData()
+            }
+        })
+        
+        self.isLoadingObserver = NotificationCenter.default.addObserver(forName: ContactsDetailsViewModel.isLoadingDidChange, object: nil, queue: nil, using: { [weak self] (note) in
+            let visibility = note.userInfo?[\ContactsDetailsViewModel.isLoading] as? Bool ?? false
+            self?.setActivityIndicator(withVisibility: visibility)
+        })
+        
+        self.errorMessageObserver = NotificationCenter.default.addObserver(forName: ContactsDetailsViewModel.errorMessageDidChange, object: nil, queue: nil, using: { [weak self] (note) in
+            let message = note.userInfo?[\ContactsDetailsViewModel.errorMessage] as? String ?? ""
+            self?.showAlert(withMessage: message)
+        })
     }
     
-    func setupContactDetailsList(withLabels labels: [String]) {
-        cellSubtitles = labels
-        
-        tableView.reloadData()
-    }
-  
-    func showLoading() {
-        HUD.show(.progress, onView: self.view)
-    }
-  
-    func hideLoading() {
-        HUD.hide()
+    private func setActivityIndicator(withVisibility visibility: Bool) {
+        if visibility {
+            HUD.show(.progress, onView: self.view)
+        } else {
+            HUD.hide()
+        }
     }
   
     func showAlert(withMessage message: String) {
@@ -91,13 +92,15 @@ class ContactDetailsTableViewController: UITableViewController, ContactsDetailVi
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return cellTitles.count
+        guard viewModel.personLabels != nil else { return 0 }
+        
+        return viewModel.personLabels.count
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: CellIdentifiers.DETAIL_CELL,
                                                  for: indexPath) as! ContactDetailTableViewCell
-        cell.setInfo(withTitle: cellTitles[indexPath.row], andDetail: cellSubtitles[indexPath.row])
+        cell.setInfo(withTitle: cellTitles[indexPath.row], andDetail: viewModel.personLabels[indexPath.row])
 
         return cell
     }

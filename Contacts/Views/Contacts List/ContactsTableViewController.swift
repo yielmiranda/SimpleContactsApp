@@ -9,30 +9,40 @@
 import UIKit
 import PKHUD
 
-protocol ContactsView {
-    func setContactList(withContacts contacts: [Person])
-    func showActivityIndicator()
-    func hideActivityIndicator()
-    func showAlert(withMessage message: String)
-}
-
-class ContactsTableViewController: UITableViewController, ContactsView {
+class ContactsTableViewController: UITableViewController {
 
     //MARK: - Properties
     
-    var contactsList = [Person]()
+    private var viewModel = ContactsListViewModel()
     
-    private var interactor: ContactsListInteractor!
+    private var contactsListObserver: NSObjectProtocol!
+    private var isLoadingObserver: NSObjectProtocol!
+    private var errorMessageObserver: NSObjectProtocol!
     
     //MARK: - View Life Cycle
+    
+    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
+        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
+        
+        setupObservers()
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(contactsListObserver)
+        NotificationCenter.default.removeObserver(isLoadingObserver)
+        NotificationCenter.default.removeObserver(errorMessageObserver)
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         setupInterface()
         
-        interactor = DefaultContactsListInteractor(withView: self)
-        interactor.loadContacts()
+        viewModel.loadContacts()
     }
 
     override func didReceiveMemoryWarning() {
@@ -42,6 +52,24 @@ class ContactsTableViewController: UITableViewController, ContactsView {
     
     //MARK: - Methods
     
+    private func setupObservers() {
+        self.contactsListObserver = NotificationCenter.default.addObserver(forName: ContactsListViewModel.contactsListDidChange, object: nil, queue: nil, using: { [weak self] (note) in
+            DispatchQueue.main.async {
+                self?.tableView.reloadData()
+            }
+        })
+        
+        self.isLoadingObserver = NotificationCenter.default.addObserver(forName: ContactsListViewModel.isLoadingDidChange, object: nil, queue: nil, using: { [weak self] (note) in
+            let visibility = note.userInfo?[\ContactsListViewModel.isLoading] as? Bool ?? false
+            self?.setActivityIndicator(withVisibility: visibility)
+        })
+        
+        self.errorMessageObserver = NotificationCenter.default.addObserver(forName: ContactsListViewModel.errorMessageDidChange, object: nil, queue: nil, using: { [weak self] (note) in
+            let message = note.userInfo?[\ContactsListViewModel.errorMessage] as? String ?? ""
+            self?.showAlert(withMessage: message)
+        })
+    }
+    
     private func setupInterface() {
         title = Titles.CONTACTS_LIST_TITLE
         
@@ -49,20 +77,15 @@ class ContactsTableViewController: UITableViewController, ContactsView {
         tableView.register(cellFromNib, forCellReuseIdentifier: CellIdentifiers.CONTACT_CELL)
     }
     
-    func setContactList(withContacts contacts: [Person]) {
-        contactsList = contacts
-        tableView.reloadData()
+    private func setActivityIndicator(withVisibility visibility: Bool) {
+        if visibility {
+            HUD.show(.progress, onView: self.view)
+        } else {
+            HUD.hide()
+        }
     }
     
-    func showActivityIndicator() {
-        HUD.show(.progress, onView: self.view)
-    }
-    
-    func hideActivityIndicator() {
-        HUD.hide()
-    }
-    
-    func showAlert(withMessage message: String) {
+    private func showAlert(withMessage message: String) {
         AlertManager.sharedAlert.displayStandardAlert(withViewController: self, title: Titles.APP_NAME,
                                                       andMessage: message)
     }
@@ -76,13 +99,15 @@ class ContactsTableViewController: UITableViewController, ContactsView {
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return contactsList.count
+        guard viewModel.contactsList != nil else { return 0 }
+        
+        return viewModel.contactsList.count
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: CellIdentifiers.CONTACT_CELL, for: indexPath) as! ContactsTableViewCell
         
-        let person = contactsList[indexPath.row]
+        let person = viewModel.contactsList[indexPath.row]
         cell.setPerson(person)
 
         return cell
@@ -91,9 +116,9 @@ class ContactsTableViewController: UITableViewController, ContactsView {
     //MARK: Delegate
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let person = contactsList[indexPath.row]
+        let person = viewModel.contactsList[indexPath.row]
         let contactDetailsVC = ContactDetailsTableViewController(nibName: NibIdentifiers.CONTACT_DETAILS_TABLEVIEW, bundle: nil)
-        contactDetailsVC.person = person
+        contactDetailsVC.personId = person.id
         
         self.navigationController?.pushViewController(contactDetailsVC, animated: true)
     }

@@ -22,12 +22,11 @@ struct CellIdentifiers {
 
 struct Titles {
     static let NAME = "Name"
-    static let BIRTHDAY = "Birthday"
     static let EMAIL_ADDRESS = "Email Address"
     static let MOBILE_NUMBER = "Mobile Number"
     static let ADDRESS = "Address"
-    static let CONTACT_PERSON = "Contact Person"
-    static let CONTACT_PERSON_NUMBER = "Contact Person's Number"
+    static let USERNAME = "Username"
+    static let WEBSITE = "Website"
     
     static let APP_NAME = "Contacts"
     static let CONTACTS_LIST_TITLE = "Contacts"
