@@ -8,15 +8,12 @@
 
 import UIKit
 
-class Person: NSObject {
+struct Person {
     var id = 0
-    var firstName = ""
-    var lastName = ""
-    var address = ""
-    var birthday = ""
+    var name = ""
+    var username = ""
     var emailAddress = ""
     var mobileNumber = ""
-    
-    var contactPersonName = ""
-    var contactPersonNumber = ""
+    var website = ""
+    var address = ""
 }

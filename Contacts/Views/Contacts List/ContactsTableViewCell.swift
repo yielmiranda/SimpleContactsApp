@@ -28,7 +28,7 @@ class ContactsTableViewCell: UITableViewCell {
     //MARK: - Methods
     
     func setPerson(_ person: Person) {
-        lblName.text = person.firstName + " " + person.lastName
+        lblName.text = person.name
         lblMobileNumber.text = person.mobileNumber
     }
 }
