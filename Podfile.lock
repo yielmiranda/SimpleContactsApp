@@ -1,18 +1,33 @@
 PODS:
   - Alamofire (4.6.0)
   - PKHUD (5.0.0)
+  - RxCocoa (4.2.0):
+    - RxSwift (~> 4.0)
+  - RxSwift (4.2.0)
   - SwiftyJSON (4.0.0)
 
 DEPENDENCIES:
   - Alamofire
   - PKHUD
+  - RxCocoa (~> 4.0)
+  - RxSwift (~> 4.0)
   - SwiftyJSON
+
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - Alamofire
+    - PKHUD
+    - RxCocoa
+    - RxSwift
+    - SwiftyJSON
 
 SPEC CHECKSUMS:
   Alamofire: f41a599bd63041760b26d393ec1069d9d7b917f4
   PKHUD: 3c001512c6e002091184197a8de7a20420786e3b
+  RxCocoa: 0b54909c902e1e581212a03e690bbd94032d8baa
+  RxSwift: 99e10317ddfcc7fbe01356aafd118fde4a0be104
   SwiftyJSON: 070dabdcb1beb81b247c65ffa3a79dbbfb3b48aa
 
-PODFILE CHECKSUM: 15c38add64d063956c6908f3f6b7939692cdafb5
+PODFILE CHECKSUM: dbb3ca9893989cf6bda735c324318cff87e708db
 
-COCOAPODS: 1.4.0
+COCOAPODS: 1.5.3

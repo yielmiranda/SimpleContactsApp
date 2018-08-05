@@ -8,6 +8,8 @@ target 'Contacts' do
     pod 'Alamofire'
     pod 'PKHUD'
     pod 'SwiftyJSON'
+    pod 'RxSwift',    '~> 4.0'
+    pod 'RxCocoa',    '~> 4.0'
 
   # Pods for Contacts
 
